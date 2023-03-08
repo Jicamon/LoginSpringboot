@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -19,5 +21,8 @@ public class Permission {
     private Integer id;
     private String name;
     private String description;
+
+    @ManyToMany(mappedBy = "rolePermissions")
+    private List<Role> roles;
 
 }
