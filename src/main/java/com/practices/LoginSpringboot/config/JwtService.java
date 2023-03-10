@@ -1,5 +1,7 @@
 package com.practices.LoginSpringboot.config;
 
+import com.practices.LoginSpringboot.entity.Permission;
+import com.practices.LoginSpringboot.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -10,9 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.security.Permissions;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
@@ -33,15 +34,16 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(User userDetails){
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
+    public String generateToken(Map<String, Object> extraClaims, User userDetails){
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .claim("authorities",userDetails.getAuthorities())
+                .claim("permissions",getAllPermissionsNames(userDetails.getRole().getRolePermissions()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * EXPIRATION ))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS512)
@@ -73,5 +75,14 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    private List<String> getAllPermissionsNames(List<Permission> roles) {
+        List<String> permissions = new ArrayList<>();
+
+        for (Permission permission : roles){
+            permissions.add(permission.getName());
+        }
+        return permissions;
     }
 }
