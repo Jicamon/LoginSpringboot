@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
 
     @GetMapping("/hello")
-    @PreAuthorize("hasPermissions('read_all_users')")
+    //@PreAuthorize("hasPermissions('read_all_users')")
+    @PreAuthorize("hasAuthority('read_all_users')")
+
     public ResponseEntity<String> sayHello(){
         return ResponseEntity.ok("Hello from a secured endpoint " + SecurityContextHolder.getContext().getAuthentication().getName());
     }

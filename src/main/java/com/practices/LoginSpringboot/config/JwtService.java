@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.security.Permissions;
 import java.util.*;
 import java.util.function.Function;
 
@@ -42,8 +41,9 @@ public class JwtService {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
-                .claim("authorities",userDetails.getAuthorities())
-                .claim("permissions",getAllPermissionsNames(userDetails.getRole().getRolePermissions()))
+                //.claim("authorities", getAllPrivilegesNames(userDetails.getUserPrivileges())
+                //.addClaims(new HashMap<>())
+                //.claim("permissions",getAllPermissionsNames(userDetails.getRole().getRolePermissions()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * EXPIRATION ))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS512)
@@ -75,14 +75,5 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    private List<String> getAllPermissionsNames(List<Permission> roles) {
-        List<String> permissions = new ArrayList<>();
-
-        for (Permission permission : roles){
-            permissions.add(permission.getName());
-        }
-        return permissions;
     }
 }
