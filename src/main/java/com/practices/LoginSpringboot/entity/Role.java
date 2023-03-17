@@ -1,6 +1,7 @@
 package com.practices.LoginSpringboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,6 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Transactional
 @Entity
 @Table(name = "_roles")
 public class Role {
@@ -34,10 +34,11 @@ public class Role {
             name = "roles_permissions",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    @JsonIgnore
+    @JsonManagedReference
     private List<Permission> rolePermissions;
 
     @Transactional
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities(){
         return this.getRolePermissions().stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getName()))

@@ -7,6 +7,16 @@ Insert Into _permissions (id, name, description) VALUES (2, 'create_all_users', 
 Insert Into _permissions (id, name, description) VALUES (3, 'read_all_users', 'Allows the user to read all the others users data');
 Insert Into _permissions (id, name, description) VALUES (4, 'disable_all_users', 'Allows the user to disable all users');
 Insert Into _permissions (id, name, description) VALUES (5, 'delete_all_users', 'Allows the user to delete all the others users data and account');
+Insert Into _permissions (id, name, description) VALUES (6, 'create_roles', 'Allows the user to create roles');
+Insert Into _permissions (id, name, description) VALUES (7, 'read_role', 'Allows the user to read roles');
+Insert Into _permissions (id, name, description) VALUES (8, 'edit_roles', 'Allows the user to edit roles');
+Insert Into _permissions (id, name, description) VALUES (9, 'delete_roles', 'Allows the user to edit roles');
+Insert Into _permissions (id, name, description) VALUES (10, 'admin_roles', 'Allows the user all actions over the roles');
+Insert Into _permissions (id, name, description) VALUES (11, 'create_permissions', 'Allows the user to create permissions');
+Insert Into _permissions (id, name, description) VALUES (12, 'read_permissions', 'Allows the user to create permissions');
+Insert Into _permissions (id, name, description) VALUES (13, 'update_permissions', 'Allows the user to create permissions');
+Insert Into _permissions (id, name, description) VALUES (14, 'delete_permissions', 'Allows the user to create permissions');
+Insert Into _permissions (id, name, description) VALUES (15, 'admin_permissions', 'Allows the user all actions over the permissions');
 
 Insert Into roles_permissions (role_id, permission_id) VALUES (1, 1);
 Insert Into roles_permissions (role_id, permission_id) VALUES (1, 2);
