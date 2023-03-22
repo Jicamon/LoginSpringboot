@@ -1,6 +1,7 @@
 package com.practices.LoginSpringboot.controller;
 
 import com.practices.LoginSpringboot.entity.RegisterRequest;
+import com.practices.LoginSpringboot.entity.ResponseObject;
 import com.practices.LoginSpringboot.entity.User;
 import com.practices.LoginSpringboot.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -23,6 +24,18 @@ public class UserController {
     @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<List<Optional>> getAllActiveUsers(){
         return ResponseEntity.ok(userService.getAllActiveUsers());
+    }
+
+    @GetMapping("/id/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public ResponseEntity<ResponseObject> getById(@RequestParam Integer id){
+        return ResponseEntity.ok(userService.getById(id));
+    }
+
+    @GetMapping("/username/{username}")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public ResponseEntity<ResponseObject> getByUsername(@RequestParam String username){
+        return ResponseEntity.ok(userService.getByUsername(username));
     }
 
     @PutMapping("/update/{id}")

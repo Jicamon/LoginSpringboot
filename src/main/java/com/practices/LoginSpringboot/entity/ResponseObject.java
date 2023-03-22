@@ -5,16 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.lang.reflect.Type;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleRequest {
-
-    private String name;
-    private String description;
-    private List<Integer> permissionIds;
-
+public class ResponseObject {
+    Object object;
+    String error;
 }

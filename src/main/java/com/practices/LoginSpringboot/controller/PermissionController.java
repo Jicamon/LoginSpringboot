@@ -2,6 +2,7 @@ package com.practices.LoginSpringboot.controller;
 
 import com.practices.LoginSpringboot.entity.Permission;
 import com.practices.LoginSpringboot.entity.PermissionRequest;
+import com.practices.LoginSpringboot.entity.ResponseObject;
 import com.practices.LoginSpringboot.service.PermissionService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/permission")
@@ -25,8 +27,8 @@ public class PermissionController {
 
     @GetMapping("/read/{id}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public ResponseEntity<Permission> getPermissionById(@RequestParam Integer id){
-        return ResponseEntity.ok(permissionService.getById(id));
+    public ResponseEntity<ResponseObject> getPermissionById(@RequestParam Integer id){
+        return ResponseEntity.ok((permissionService.getById(id)));
     }
 
     @GetMapping("/read/all")

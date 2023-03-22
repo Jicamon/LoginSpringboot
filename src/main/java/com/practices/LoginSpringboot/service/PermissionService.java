@@ -2,12 +2,15 @@ package com.practices.LoginSpringboot.service;
 
 import com.practices.LoginSpringboot.entity.Permission;
 import com.practices.LoginSpringboot.entity.PermissionRequest;
+import com.practices.LoginSpringboot.entity.ResponseObject;
 import com.practices.LoginSpringboot.repository.PermissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +34,12 @@ public class PermissionService {
         return permissionRepository.findAll();
     }
 
-    public Permission getById(Integer id){
-        return permissionRepository.getReferenceById(id);
+    public ResponseObject getById(Integer id){
+        try{
+            return new ResponseObject(Optional.of(permissionRepository.findById(id).get()), "") ;
+        } catch (NoSuchElementException nSEE){
+            return new ResponseObject(null, nSEE.getMessage());
+        }
     }
 
     public Permission update(Permission permission){

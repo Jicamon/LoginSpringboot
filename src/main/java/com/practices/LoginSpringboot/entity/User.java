@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,10 +38,10 @@ public class User implements UserDetails {
     private boolean isActive;
     @JoinColumn(name = "role")
     @ManyToOne(targetEntity = Role.class, fetch = FetchType.EAGER)
-    @JsonIgnore
     private Role role;
 
     @Column(name = "role", insertable = false, updatable = false)
+    @JsonIgnore
     private Integer roleId;
 
     @Override

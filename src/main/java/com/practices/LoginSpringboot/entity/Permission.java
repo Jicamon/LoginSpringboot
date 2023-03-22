@@ -1,6 +1,7 @@
 package com.practices.LoginSpringboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonIgnoreProperties("roles")
 @Table(name = "_permissions")
 public class Permission {
 
@@ -27,7 +29,6 @@ public class Permission {
     private String description;
 
     @ManyToMany(mappedBy = "rolePermissions")
-    @JsonBackReference
     private List<Role> roles;
 
 }

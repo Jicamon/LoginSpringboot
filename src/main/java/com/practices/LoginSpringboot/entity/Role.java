@@ -29,12 +29,12 @@ public class Role {
     private String name;
     private String description;
 
+    //@JsonManagedReference
     @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "roles_permissions",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    @JsonManagedReference
     private List<Permission> rolePermissions;
 
     @Transactional

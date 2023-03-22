@@ -1,5 +1,6 @@
 package com.practices.LoginSpringboot.controller;
 
+import com.practices.LoginSpringboot.entity.ResponseObject;
 import com.practices.LoginSpringboot.entity.Role;
 import com.practices.LoginSpringboot.entity.RoleRequest;
 import com.practices.LoginSpringboot.service.RoleService;
@@ -23,6 +24,7 @@ public class RoleController {
     @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Role> saveRole(@RequestBody RoleRequest role){
         return ResponseEntity.ok(roleService.saveRole(role));
+        //return ResponseEntity.ok(roleService.saveANewRole());
     }
     @GetMapping("/all")
     @SecurityRequirement(name = "Bearer Authentication")
@@ -32,7 +34,7 @@ public class RoleController {
 
     @GetMapping("/read/{id}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public ResponseEntity<Role> getRoleById(@RequestParam Integer id){
+    public ResponseEntity<ResponseObject> getRoleById(@RequestParam Integer id){
         return ResponseEntity.ok(roleService.getById(id));
     }
 

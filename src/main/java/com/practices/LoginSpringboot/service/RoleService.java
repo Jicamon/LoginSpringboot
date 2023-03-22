@@ -1,18 +1,15 @@
 package com.practices.LoginSpringboot.service;
 
-import com.practices.LoginSpringboot.entity.Permission;
-import com.practices.LoginSpringboot.entity.Role;
-import com.practices.LoginSpringboot.entity.RoleRequest;
+import com.practices.LoginSpringboot.entity.*;
+import com.practices.LoginSpringboot.repository.PermissionRepository;
 import com.practices.LoginSpringboot.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +17,9 @@ public class RoleService {
 
     @Autowired
     private final RoleRepository roleRepository;
+
+    @Autowired
+    private final PermissionRepository permissionRepository;
 
     public List<Role> getAllRoles(){
         return roleRepository.findAll();
@@ -30,7 +30,7 @@ public class RoleService {
         var role = Role.builder()
                 .name(request.getName())
                 .description(request.getDescription())
-                .rolePermissions(request.getRolePermissions())
+                .rolePermissions(permissionRepository.findAllById(request.getPermissionIds()))
                 .build();
 
         return roleRepository.save(role);
@@ -40,8 +40,13 @@ public class RoleService {
         return roleRepository.findAll();
     }
 
-    public Role getById(Integer id){
-        return roleRepository.getReferenceById(id);
+    public ResponseObject getById(Integer id){
+        try{
+            return new ResponseObject(Optional.of(roleRepository.findById(id).get()), "");
+        } catch (NoSuchElementException nSEE) {
+            return new ResponseObject(null, nSEE.getMessage());
+        }
+
     }
 
     public Role update(Role permission){
